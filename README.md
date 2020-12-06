@@ -92,6 +92,6 @@ Sorted Array: -5,-1,2,2,3,4,24,42
 ---
 expected == actual FAILED
 ├── 1st: expected: -5,-1,2,2,3,4,24,42
-└── 2st: actual: 2,-5,-1,2,3,4,24,42
+└── 2nd: actual: 2,-5,-1,2,3,4,24,42
 Aborted (core dumped)
 ```
