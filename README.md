@@ -21,7 +21,7 @@
 
 void sort(int* array, size_t length)
 {
-    /* Implementation */
+	/* Implementation */
 }
 
 int main()
