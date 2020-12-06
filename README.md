@@ -26,19 +26,19 @@ void sort(int* array, size_t length)
 
 int main()
 {
-    /* Init variables */
-    int actual[ARR_SIZE] = { 4, 2, -1, 3, 24, 42, -5, 2 };
-    int expected[ARR_SIZE] = { -5, -1, 2, 2, 3, 4, 24, 42 };
+	/* Init variables */
+	int actual[ARR_SIZE] = { 4, 2, -1, 3, 24, 42, -5, 2 };
+	int expected[ARR_SIZE] = { -5, -1, 2, 2, 3, 4, 24, 42 };
 
-    /* Call sort function */
-    sort(actual, ARR_SIZE);
+	/* Call sort function */
+	sort(actual, ARR_SIZE);
 
-    /* Test equality */
-    ASSERT_COLLECTION_EQUAL(expected, ARR_SIZE, actual, ARR_SIZE);
+	/* Test equality */
+	ASSERT_COLLECTION_EQUAL(expected, ARR_SIZE, actual, ARR_SIZE);
 
-    /* Print success */
-    printf("SUCCESS\nSorted Array: ");
-    ARRAY_PRINT(actual, ARR_SIZE);
+	/* Print success */
+	printf("SUCCESS\nSorted Array: ");
+	ARRAY_PRINT(actual, ARR_SIZE, ", ");
 }
 ```
 
