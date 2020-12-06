@@ -5,6 +5,8 @@
 > make && make install
 > cd ../testsuit
 > make && make install
+> cd ../array_tools
+> make && make install
 ```
 
 
@@ -67,14 +69,14 @@ ROOT = ../
 
 ## Example Success Output
 ```console
-> ./bubble_sort.out 
+> ./bubble_sort.out
 SUCCESS
 Sorted Array: -5,-1,2,2,3,4,24,42
 ```
 
 ## Example Failed Output
 ```console
-> ./bubble_sort2.out 
+> ./bubble_sort2.out
 -5 == 2 FAILED
 └── CONCRETE_VALUE missmatch
     ├── 1st: expected at index 0 = -5
