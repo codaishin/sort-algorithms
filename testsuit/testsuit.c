@@ -116,7 +116,7 @@ void assert_type(const variable_t type_a, const variable_t type_b,
         assert_written_ok(snprintf(buff_b, STR_SIZE, fmt, name_b), STR_SIZE);
         printf(BASE_FMT, name_a, "==", name_b, "TYPE MISSMATCH");
         printf(
-            SUB_FMT, 
+            SUB_FMT,
             buff_a, type_to_string(type_a),
             buff_b, type_to_string(type_b)
         );
@@ -166,8 +166,8 @@ bool compare(op_t op, const char* name_a, const char* name_b,
     return success;
 }
 
-bool assert_op(op_t op, 
-               const void* ptr_a, const size_t size_a, 
+bool assert_op(op_t op,
+               const void* ptr_a, const size_t size_a,
                const variable_t type_a, const char* name_a,
                const void* ptr_b, const size_t size_b,
                const variable_t type_b, const char* name_b,
@@ -186,7 +186,7 @@ bool assert_op(op_t op,
     return compare(op, name_a, name_b, type_a, abort_on_fail, ptr_a, ptr_b);
 }
 
-void assert_collection_equal(void* a, const size_t size_a, 
+void assert_collection_equal(void* a, const size_t size_a,
                              const variable_t type_a, const char* name_a,
                              void* b, const size_t size_b,
                              const variable_t type_b, const char* name_b,
@@ -207,7 +207,7 @@ void assert_collection_equal(void* a, const size_t size_a,
             snprintf(buff_b, STR_SIZE, "%s at index %zu", name_b, i), STR_SIZE
         );
         tmp = assert_op(
-            OP_E, 
+            OP_E,
             ptr_a, type_size, type_a, buff_a,
             ptr_b, type_size, type_b, buff_b,
             false
@@ -220,8 +220,8 @@ void assert_collection_equal(void* a, const size_t size_a,
         printf("---\n%s == %s FAILED\n", name_a, name_b);
         printf("├── 1st: %s: ", name_a);
         array_print(a, size_a, type_size, type_a, ",");
-        printf("└── 2st: %s: ", name_b);
+        printf("└── 2nd: %s: ", name_b);
         array_print(b, size_b, type_size, type_b, ",");
-        abort();   
+        abort();
     }
 }
