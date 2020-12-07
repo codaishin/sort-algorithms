@@ -30,17 +30,20 @@ void array_print(int* array, size_t size)
 	printf("\n");
 }
 
+void sort_up(int* heap, size_t index)
+{
+	size_t parent = prnix(index);
+	while (index > 0 && heap[index] > heap[parent]) {
+		SWAP(heap[index], heap[parent]);
+		index = parent;
+		parent = prnix(index);
+	}
+}
+
 void heapify(int* array, size_t size)
 {
-	size_t ia, ic, ip;
-	for (ia = 0; ia < size; ++ia) {
-		ic = ia;
-		ip = prnix(ic);
-		while (ic > 0 && array[ic] > array[ip]) {
-			SWAP(array[ic], array[ip]);
-			ic = ip;
-			ip = prnix(ic);
-		}
+	for (size_t i = 1; i < size; ++i) {
+		sort_up(array, i);
 	}
 }
 
