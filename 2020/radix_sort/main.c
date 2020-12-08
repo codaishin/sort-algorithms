@@ -49,8 +49,7 @@ void run_tests()
 }
 
 
-void update_counts(size_t* counts, char** array,
-                   size_t size, size_t i_char)
+void counts_read_arr(size_t* counts, char** array, size_t size, size_t i_char)
 {
 	size_t tmp, i;
 	for (i = 0; i < size; ++i) {
@@ -63,8 +62,8 @@ void update_counts(size_t* counts, char** array,
 }
 
 
-void update_buffer(char** buffer, size_t* counts, char** array,
-                   size_t size, size_t i_char)
+void counts_fill_bff(size_t* counts, char** array, size_t size, size_t i_char,
+                     char** buffer)
 {
 	size_t tmp, i = size;
 	while(i--) {
@@ -96,8 +95,8 @@ void sort(char** array, size_t size)
 
 	while (length--) {
 		memset(counts, 0, CHAR_MAX * sizeof(*counts));
-		update_counts(counts, array, size, length);
-		update_buffer(buff, counts, array, size, length);
+		counts_read_arr(counts, array, size, length);
+		counts_fill_bff(counts, array, size, length, buff);
 		memcpy(array, buff, size * sizeof(*array));
 	}
 }
