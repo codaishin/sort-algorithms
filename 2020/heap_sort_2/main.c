@@ -21,13 +21,21 @@ size_t prnix(size_t chi)
 	return (chi - 1) / 2;
 }
 
+void sort_up(int* array, size_t index)
+{
+	size_t parent = prnix(index);
+	size_t current = index;
+	while (current > 0 && array[parent] < array[current]) {
+		SWAP(array[parent], array[current]);
+		current = parent;
+		parent = prnix(current);
+	}
+}
+
 void heapify(int* array, size_t size)
 {
 	for (size_t i = 0; i < size; ++i) {
-		size_t p = prnix(i);
-		if (i > 0 && array[p] < array[i]) {
-			SWAP(array[p], array[i]);
-		}
+		sort_up(array, i);
 	}
 }
 
@@ -66,20 +74,6 @@ void test_heap_4_items()
 {
 	int array[] = { 3, 1, 2, 4 };
 	int expected[] = { 4, 3, 2, 1 };
-
-	/**
-	 *     3
-	 *   1   2
-	 * 4
-	 *
-	 *     3
-	 *   4   2
-	 * 1
-	 *
-	 *     4
-	 *   3   2
-	 * 1
-	 */
 
 	heapify(array, 4);
 
