@@ -10,8 +10,8 @@ typedef struct {
 } colors_t;
 
 const colors_t colors = {
-	green: "\033[0;31m",
-	red: "\033[0;32m",
+	green: "\033[0;32m",
+	red: "\033[0;31m",
 	reset: "\033[0m",
 };
 
