@@ -15,7 +15,7 @@ const colors_t colors = {
 	reset: "\033[0m",
 };
 
-void array_print(int* array, size_t size)
+void array_to_console(int* array, size_t size)
 {
 	printf("[");
 	size_t i;
@@ -32,9 +32,9 @@ void assert_equal(int* expected, int* actual, size_t size, const char* funcname)
 		if (expected[i] != actual[i]) {
 			printf("[%sX%s] %s\n", colors.red, colors.reset, funcname);
 			printf(" ├─ expected: ");
-			array_print(expected, size);
+			array_to_console(expected, size);
 			printf(" └── but was: ");
-			array_print(actual, size);
+			array_to_console(actual, size);
 			okay = 0;
 		}
 	}
