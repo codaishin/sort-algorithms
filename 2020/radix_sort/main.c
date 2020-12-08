@@ -75,14 +75,6 @@ void update_buffer(char** buffer, size_t* counts, char** array,
 }
 
 
-void update_array(char** array, char** buffer, size_t size)
-{
-	for (size_t i = 0; i < size; ++i) {
-		array[i] = buffer[i];
-	}
-}
-
-
 size_t get_max_length(char** array, size_t size)
 {
 	size_t i, length, tmp;
@@ -106,7 +98,7 @@ void sort(char** array, size_t size)
 		memset(counts, 0, CHAR_MAX * sizeof(*counts));
 		update_counts(counts, array, size, length);
 		update_buffer(buff, counts, array, size, length);
-		update_array(array, buff, size);
+		memcpy(array, buff, size * sizeof(*array));
 	}
 }
 
