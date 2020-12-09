@@ -5,8 +5,8 @@
 #include "tools.h"
 
 /* Forward Declarations */
-void counters_count(int* counters, char** array, size_t size, size_t index);
-void counters_to_buffer(int* counters, char** array, char**buff, size_t size, size_t index);
+void counters_count(int* counters, char** array, size_t size, size_t char_r_index);
+void counters_to_buffer(int* counters, char** array, char**buff, size_t size, size_t char_r_index);
 size_t get_max_length(char** array, size_t size);
 
 void set_range(int* array, int value, size_t start, size_t count)
@@ -26,7 +26,7 @@ void test_count_set_empty()
 	ASSERT_EQUAL(expected, counters, CHAR_MAX);
 }
 
-void test_count_index_0()
+void test_count_r_index_0()
 {
 	char* array[] = { "A", "B", "A", "2" };
 	int counters[CHAR_MAX];  // using ints, beacuse we have a ASSERT_EQUAL for that
@@ -41,7 +41,7 @@ void test_count_index_0()
 	ASSERT_EQUAL(expected, counters, CHAR_MAX);
 }
 
-void test_count_index_1()
+void test_count_r_index_1_lenght_2()
 {
 	char* array[] = { "_A", "_B", "_A", "_2" };
 	int counters[CHAR_MAX];  // using ints, beacuse we have a ASSERT_EQUAL for that
@@ -51,28 +51,21 @@ void test_count_index_1()
 	set_range(expected, 3, 'A', ('B' - 'A'));
 	set_range(expected, 4, 'B', (CHAR_MAX - 'B'));
 
-	counters_count(counters, array, 4, 1);
+	counters_count(counters, array, 4, 0);
 
 	ASSERT_EQUAL(expected, counters, CHAR_MAX);
 }
 
-void test_count_index_2_variable_size()
+void test_count_r_index_1_variable_size()
 {
-	char* buff = "_A1\0_A2\0_\0_A\0ööööööööööööööööööööö";
-	char* array[] = {
-		buff + 0, //"_A1"
-		buff + 4, //"_A2"
-		buff + 8, //"_"
-		buff + 10, //"_A"
-	};
+	char* array[] = { "A1", "A2", "B", "A" };
 	int counters[CHAR_MAX];  // using ints, beacuse we have a ASSERT_EQUAL for that
 	int expected[CHAR_MAX] = {0};
 
-	set_range(expected, 2, 0, ('1' - 0));
-	set_range(expected, 3, '1', ('2' - '1'));
-	set_range(expected, 4, '2', (CHAR_MAX - '2'));
+	set_range(expected, 2, 0, ('A' - 0));
+	set_range(expected, 4, 'A', (CHAR_MAX - 'A'));
 
-	counters_count(counters, array, 4, 2);
+	counters_count(counters, array, 4, 1);
 
 	ASSERT_EQUAL(expected, counters, CHAR_MAX);
 }
@@ -95,24 +88,17 @@ void test_counters_to_buffer()
 
 void test_counters_to_buffer_var_size()
 {
-	char* buff = "_A1\0_A2\0_\0_A\0ööööööööööööööööööööö";
-	char* array[] = {
-		buff + 0, //"_A1"
-		buff + 4, //"_A2"
-		buff + 8, //"_"
-		buff + 10, //"_A"
-	};
-	char* target_buff[] = { "", "", "", "" };
-	char* expected[] = { "_", "_A", "_A1", "_A2" };
+	char* array[] = { "A1", "A2", "B", "A" };
+	char* buff[] = { "", "", "", "" };
+	char* expected[] = { "B", "A", "A1", "A2" };
 	int counter[CHAR_MAX] = {0};
 
-	set_range(counter, 2, 0, ('1' - 0));
-	set_range(counter, 3, '1', ('2' - '1'));
-	set_range(counter, 4, '2', (CHAR_MAX - '2'));
+	set_range(counter, 2, 0, ('A' - 0));
+	set_range(counter, 4, 'A', (CHAR_MAX - 'A'));
 
-	counters_to_buffer(counter, array, target_buff, 4, 2);
+	counters_to_buffer(counter, array, buff, 4, 1);
 
-	ASSERT_STR_EQUAL(expected, target_buff, 4);
+	ASSERT_STR_EQUAL(expected, buff, 4);
 }
 
 void test_max_length()
@@ -128,23 +114,24 @@ void test_max_length()
 void run_tests()
 {
 	test_count_set_empty();
-	test_count_index_0();
-	test_count_index_1();  // redundant to test 0? ... may be deleted?
-	test_count_index_2_variable_size();
+	test_count_r_index_0();
+	test_count_r_index_1_lenght_2();  // redundant to test 0? ... may be deleted?
+	test_count_r_index_1_variable_size();
 	test_counters_to_buffer();
 	test_counters_to_buffer_var_size();
 	test_max_length();
 }
 
 
-void counters_count(int* counters, char** array, size_t size, size_t index)
+void counters_count(int* counters, char** array, size_t size, size_t char_r_index)
 {
 	size_t i, tmp;
 
 	memset(counters, 0, CHAR_MAX * sizeof(*counters));
 
 	for (i = 0; i < size; ++i) {
-		tmp = strlen(array[i]) > index ? (int)array[i][index] : 0;
+		tmp = strlen(array[i]);
+		tmp = tmp > char_r_index ? array[i][tmp-char_r_index-1] : 0;
 		++counters[tmp];
 	}
 	for (i = 1; i < CHAR_MAX; ++i) {
@@ -152,12 +139,13 @@ void counters_count(int* counters, char** array, size_t size, size_t index)
 	}
 }
 
-void counters_to_buffer(int* counters, char** array, char**buff, size_t size, size_t index)
+void counters_to_buffer(int* counters, char** array, char**buff, size_t size, size_t char_r_index)
 {
 	int i;
 	size_t tmp;
 	for (i = size - 1; i >= 0; --i) {
-		tmp = strlen(array[i]) > index ? (int)array[i][index] : 0;
+		tmp = strlen(array[i]);
+		tmp = tmp > char_r_index ? array[i][tmp-char_r_index-1] : 0;
 		tmp = --counters[tmp];
 		buff[tmp] = array[i];
 	}
@@ -176,13 +164,13 @@ size_t get_max_length(char** array, size_t size)
 
 void sort(char** array, size_t size)
 {
+	size_t length = get_max_length(array, size);
 	char* buff[size];
 	int counters[CHAR_MAX];
-	size_t length = get_max_length(array, size);
 
-	while (length--) {
-		counters_count(counters, array, size, length);
-		counters_to_buffer(counters, array, buff, size, length);
+	for (size_t r = 0; r < length; ++r) {
+		counters_count(counters, array, size, r);
+		counters_to_buffer(counters, array, buff, size, r);
 		memcpy(array, buff, size * sizeof(*array));
 	}
 }
@@ -192,7 +180,7 @@ int main()
 {
 	run_tests();
 
-	char* strings[] = { "100", "204", "33", "0" };
+	char* strings[] = { "a", "world", "alf", "hello" };
 	size_t size = sizeof(strings) / sizeof(*strings);
 
 	sort(strings, size);
