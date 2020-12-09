@@ -16,7 +16,7 @@ size_t partition(int *array, size_t size)
 	long int l = 0, r = p - 1;
 
 
-	while (l < r) {
+	while (l <= r) {
 		while (array[l] < array[p]) {
 			++l;
 		}
@@ -34,7 +34,7 @@ size_t partition(int *array, size_t size)
 
 void sort(int* array, size_t size)
 {
-	if (!size) return;
+	if (size < 2) return;
 
 	size_t pivot = partition(array, size);
 	sort(array, pivot++);
