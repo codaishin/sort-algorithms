@@ -1,5 +1,5 @@
 APPNAME = ???
-ROOT = ../
+ROOT = ../../
 
 LIB = -ltestsuit -ltools -larray_tools
 LIBPATH = $(ROOT)lib

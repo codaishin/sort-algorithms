@@ -1,5 +1,5 @@
 # search-algorithms
-## Install Prepared libraries
+## Install Prepared libraries in project `lib` folder
 ```console
 > cd tools
 > make && make install
@@ -45,20 +45,20 @@ int main()
 ## Compile
 ### Manually
 ```console
-> gcc bubble_sort.c -std=c99 -Wall -I../headers \
-                    -L../lib -ltestsuit -ltools \
-                    -Wl,-rpath=../lib -o bubble_sort.out
+> gcc bubble_sort.c -std=c99 -Wall -I../../headers \
+                    -L../../lib -ltestsuit -ltools \
+                    -Wl,-rpath=../../lib -o bubble_sort.out
 ```
 ### Makefile
 #### Setup
 ```console
-cp ../makefile_template .
+cp ../../makefile_template .
 mv makefile_template makefile
 ```
 Change `APPNAME` in makefile to your application name (must match the .c file)
 ```Makefile
 APPNAME = bubble_sort
-ROOT = ../
+ROOT = ../../
 
 ...
 ```
